@@ -8,6 +8,7 @@ from wagtail.fields import RichTextField
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtail.models import Page, Orderable
 from wagtail.snippets.models import register_snippet
+from wagtail.search import index
 
 
 class BlogIndexPage(Page):
@@ -44,6 +45,11 @@ class BlogPage(Page):
             return galley_item.image
 
         return None
+
+    search_fields = Page.search_fields + [
+        index.SearchField("body"),
+        index.SearchField("intro"),
+    ]
 
     content_panels = Page.content_panels + [
         MultiFieldPanel([
